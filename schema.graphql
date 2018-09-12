@@ -1,0 +1,19 @@
+type Entry {
+  version: Bytes!
+  beneficiary: Bytes!
+  underwriter: Bytes!
+  underwriterRiskRating: BigInt!
+  termsContract: Bytes!
+  termsContractParameters: BigInt!
+  issuanceBlockTimestamp: BigInt!
+}
+
+type SimpleInterestParams {
+  principalTokenAddress: Bytes!
+  principalAmount: BigInt!
+  termStartUnixTimestamp: BigInt!
+  termEndUnixTimestamp: BigInt!
+  amortizationUnitType: String
+  termLengthInAmortizationUnits: BigInt
+  interestRate: BigInt!
+}

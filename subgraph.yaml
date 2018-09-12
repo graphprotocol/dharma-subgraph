@@ -1,0 +1,42 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+- kind: ethereum/contract
+  name: DebtRegistry
+  source:
+    address: "4e0f2b97307ad60b741f993c052733acc1ea5811"
+    abi: DebtRegistry
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Entry
+    abis:
+    - name: DebtRegistry
+      file: ./abis/DebtRegistry.json
+    eventHandlers:
+    - event: LogInsertEntry(bytes32,address,address,uint,address,bytes32)
+      handler: handleLogInsertEntry
+    file: ./mappings/debt-registry.ts
+- kind: ethereum/contract
+  name: SimpleInterestTermsContract
+  source:
+    address: "b78a7d1c1d03cf9155cc522097cbc679e15cf9a3"
+    abi: SimpleInterestTermsContract
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - SimpleInterestParams
+    abis:
+    - name: SimpleInterestTermsContract
+      file: ./abis/SimpleInterestTermsContract.json
+    eventHandlers:
+    - event: LogSimpleInterestTermStart(bytes32,address,uint,uint,uint,uint)
+      handler: handleLogSimpleInterestTermStart
+    - event: LogRegisterRepayment(bytes32,address,address,uint256,address)
+      handler: handleLogRegisterRepayment
+    file: ./mappings/simple-interest-terms-contract.ts

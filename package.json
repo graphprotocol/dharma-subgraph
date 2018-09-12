@@ -1,0 +1,14 @@
+{
+  "name": "dharma-subgraph",
+  "version": "1.0.0",
+  "repository": "https://github.com/graphprotocol/dharma-subgraph",
+  "license": "MIT",
+  "scripts": {
+    "codegen": "graph generate-types subgraph.yaml",
+    "build": "graph build subgraph.yaml",
+    "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.2.5"
+  }
+}
