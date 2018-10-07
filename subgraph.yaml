@@ -39,44 +39,48 @@ dataSources:
     eventHandlers:
     - event: LogDebtOrderFilled(bytes32,uint,address,address,uint,address,uint)
       handler: handleDebtOrderFilled
+    - event: LogIssuanceCancelled(bytes32,address)
+      handler: handleIssuanceCancelled
+    - event: LogDebtOrderCancelled(bytes32,address)
+      handler: handleDebtCancelled
     file: ./mappings/debt-kernel.ts
-  - kind: ethereum/contract
-    name: ERC721Collateralizer
-    source:
-      address: "0xecc718386176d714dc9e4e35e177396b291499ee"
-      abi: ERC721Collateralizer
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.1
-      language: wasm/assemblyscript
-      entities:
-      - Collateral
-      abis:
-      - name: ERC721Collateralizer
-        file: ./abis/ERC721Collateralizer.json
-      eventHandlers:
-      - event: CollateralLocked(bytes32,address,uint256)
-        handler: handleLock
-      - event: CollateralReturned(bytes32,address,address,uint256)
-        handler: handleLock
-      - event: CollateralSeized(bytes32,address,addressuint256)
-        handler: handleLock
-      file: ./mappings/collateralizer.ts
-  - kind: ethereum/contract
-    name: RepaymentRouter
-    source:
-      address: "0xc1df9b92645cc3b6733992c692a39c34a86fae5f"
-      abi: RepaymentRouter
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.1
-      language: wasm/assemblyscript
-      entities:
-      - Repayment
-      abis:
-      - name: RepaymentRouter
-        file: ./abis/RepaymentRouter.json
-      eventHandlers:
-      - event: LogRepayment(bytes32,address,address,uint,address)
-        handler: handleLogSimpleInterestTermStart
-      file: ./mappings/repayment-router.ts
+- kind: ethereum/contract
+  name: ERC721Collateralizer
+  source:
+    address: "0xecc718386176d714dc9e4e35e177396b291499ee"
+    abi: ERC721Collateralizer
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Collateral
+    abis:
+    - name: ERC721Collateralizer
+      file: ./abis/ERC721Collateralizer.json
+    eventHandlers:
+    - event: CollateralLocked(bytes32,address,uint256)
+      handler: handleLock
+    - event: CollateralReturned(bytes32,address,address,uint256)
+      handler: handleReturned
+    - event: CollateralSeized(bytes32,address,address,uint256)
+      handler: handleSeized
+    file: ./mappings/collateralizer.ts
+- kind: ethereum/contract
+  name: RepaymentRouter
+  source:
+    address: "0xc1df9b92645cc3b6733992c692a39c34a86fae5f"
+    abi: RepaymentRouter
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Repayment
+    abis:
+    - name: RepaymentRouter
+      file: ./abis/RepaymentRouter.json
+    eventHandlers:
+    - event: LogRepayment(bytes32,address,address,uint,address)
+      handler: handleRepayment
+    file: ./mappings/repayment-router.ts

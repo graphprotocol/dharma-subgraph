@@ -1,36 +1,38 @@
 
 ##################### main contract DebtKernal.sol
 type DebtOrder @entity {
-  issuance: Issuance! @derivedFrom(field: "debtOrder")
-  collateral: Collateral! @derivedFrom(field: "debtOrder")
-  repayment: Repayment! @derivedFrom(field: )
+  issuance: Issuance @derivedFrom(field: "debtOrder")
+  collateral: Collateral @derivedFrom(field: "debtOrder")
+  repayment: Repayment @derivedFrom(field: "debtOrder")
+  registered: RegisteredDebt @derivedFrom(field: "debtOrder")
   agreementID: ID!
-  principle:   uint!
-  principleToken: Address!
+  principle:   Int!
+  principleToken: Bytes!
   underwriter: Bytes
   underWriterFee: Int
   relayer: Bytes
-  relayerFee: uint
-  cancelled: bool #from LogIssuanceCancelled()
+  relayerFee: Int
+  cancelledBy: Bytes #from LogIssuanceCancelled()
 }
 
 ##################### main contract DebtKernal.sol
 type Issuance @entity {
   id: ID! #_agreementID
   debtOrder: DebtOrder!
-  cancelled: Bool # from LogIssuanceCancelle()
+  cancelledBy: Bytes # from LogIssuanceCancelle()
 }
 
 
 ###################### main contract DebtRegistry.sol
 type RegisteredDebt @entity {
-  agreementID: Bytes!
+  id: ID! #agreement ID
+  debtOrder: DebtOrder!
   beneficiary: Bytes! #LogModifyEntryBeneficary Too
   previousBenefactors: [Bytes] #LogModifyEntryBeneficary Too
   underwriter: Bytes!
   underwriterRiskRating: BigInt!
   termsContract: Bytes!
-  termsContractParameters: BigInt!
+  termsContractParameters: Bytes!
 
   # CAN be grabbed by the get() function
   #  version: Bytes!
@@ -40,7 +42,7 @@ type RegisteredDebt @entity {
 
 ###################### main contract - ERC721Collateralizer.sol
 # ColateralLockedEvent() initiates the storage of this. Other two events update bools only
-type Collateral {
+type Collateral @entity {
   debtor: Bytes!
   id: ID! #agreementID
   erc721Address: Bytes!
@@ -52,7 +54,7 @@ type Collateral {
 }
 
 ###################### main contract - RepaymentRouter.sol
-type Repayment {
+type Repayment @entity {
   id: ID!
   payer: Bytes!
   beneficiary: Bytes!
