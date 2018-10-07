@@ -1,19 +1,62 @@
-type Entry {
-  version: Bytes!
-  beneficiary: Bytes!
+
+##################### main contract DebtKernal.sol
+type DebtOrder @entity {
+  issuance: Issuance! @derivedFrom(field: "debtOrder")
+  collateral: Collateral! @derivedFrom(field: "debtOrder")
+  repayment: Repayment! @derivedFrom(field: )
+  agreementID: ID!
+  principle:   uint!
+  principleToken: Address!
+  underwriter: Bytes
+  underWriterFee: Int
+  relayer: Bytes
+  relayerFee: uint
+  cancelled: bool #from LogIssuanceCancelled()
+}
+
+##################### main contract DebtKernal.sol
+type Issuance @entity {
+  id: ID! #_agreementID
+  debtOrder: DebtOrder!
+  cancelled: Bool # from LogIssuanceCancelle()
+}
+
+
+###################### main contract DebtRegistry.sol
+type RegisteredDebt @entity {
+  agreementID: Bytes!
+  beneficiary: Bytes! #LogModifyEntryBeneficary Too
+  previousBenefactors: [Bytes] #LogModifyEntryBeneficary Too
   underwriter: Bytes!
   underwriterRiskRating: BigInt!
   termsContract: Bytes!
   termsContractParameters: BigInt!
-  issuanceBlockTimestamp: BigInt!
+
+  # CAN be grabbed by the get() function
+  #  version: Bytes!
+  #  issuanceBlockTimestamp: BigInt!
+
 }
 
-type SimpleInterestParams {
-  principalTokenAddress: Bytes!
-  principalAmount: BigInt!
-  termStartUnixTimestamp: BigInt!
-  termEndUnixTimestamp: BigInt!
-  amortizationUnitType: String
-  termLengthInAmortizationUnits: BigInt
-  interestRate: BigInt!
+###################### main contract - ERC721Collateralizer.sol
+# ColateralLockedEvent() initiates the storage of this. Other two events update bools only
+type Collateral {
+  debtor: Bytes!
+  id: ID! #agreementID
+  erc721Address: Bytes!
+  tokenID: BigInt!
+  debtOrder: DebtOrder!
+  returned: Boolean! # only happens it CollateralReturn() is emitted
+  seized: Boolean! # only happens if CollateralSeized() is emitted
+
+}
+
+###################### main contract - RepaymentRouter.sol
+type Repayment {
+  id: ID!
+  payer: Bytes!
+  beneficiary: Bytes!
+  amount: Int!
+  tokenAddress: Bytes!
+  debtOrder: DebtOrder!
 }
