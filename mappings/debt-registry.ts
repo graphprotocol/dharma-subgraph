@@ -21,22 +21,16 @@ export function handleLogInsertEntry(event: LogInsertEntry): void {
     entry.setBytes('termsContractParameters', event.params.termsContractParameters)
     entry.setArray('previousBenefactors', new Array<Value>())
 
-
-
-  store.set('RegisteredDebt', id, entry)
+    store.set('RegisteredDebt', id, entry)
 }
 
 export function handleModifyBeneficiary(event: LogModifyEntryBeneficiary): void {
     let id = event.params.agreementId.toHex()
 
-    let regDebt = store.get('RegisteredDebt', 'id')
+    let regDebt = store.get('RegisteredDebt', id) as Entity
     let prevOwners = regDebt.getArray('previousBenefactors')
-
     prevOwners.push(Value.fromAddress(event.params.previousBeneficiary))
-
     regDebt.setArray('previousBeneficiary', prevOwners)
     regDebt.setAddress('beneficiary', event.params.newBeneficiary)
-
-    store.set('RegisteredDebt', id, regDebt as Entity)
-
+    store.set('RegisteredDebt', id, regDebt)
 }

@@ -8,7 +8,7 @@
     "build": "graph build subgraph.yaml",
     "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml",
     "deploy":
-    "graph deploy --ipfs /ip4/127.0.0.1/tcp/5001 --node http://127.0.0.1:8030 --subgraph-name your-subgraph subgraph.yaml"
+    "graph deploy --ipfs /ip4/127.0.0.1/tcp/5001 --node http://127.0.0.1 --subgraph-name dharma subgraph.yaml"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.3.2",

@@ -5,13 +5,13 @@ type DebtOrder @entity {
   collateral: Collateral @derivedFrom(field: "debtOrder")
   repayment: Repayment @derivedFrom(field: "debtOrder")
   registered: RegisteredDebt @derivedFrom(field: "debtOrder")
-  agreementID: ID!
-  principle:   Int!
-  principleToken: Bytes!
+  id: ID!
+  principle: BigInt
+  principleToken: Bytes
   underwriter: Bytes
-  underWriterFee: Int
+  underWriterFee: BigInt
   relayer: Bytes
-  relayerFee: Int
+  relayerFee: BigInt
   cancelledBy: Bytes #from LogIssuanceCancelled()
 }
 
@@ -26,11 +26,11 @@ type Issuance @entity {
 ###################### main contract DebtRegistry.sol
 type RegisteredDebt @entity {
   id: ID! #agreement ID
-  debtOrder: DebtOrder!
+  debtOrder: DebtOrder
   beneficiary: Bytes! #LogModifyEntryBeneficary Too
   previousBenefactors: [Bytes] #LogModifyEntryBeneficary Too
-  underwriter: Bytes!
-  underwriterRiskRating: BigInt!
+  underwriter: Bytes
+  underwriterRiskRating: BigInt
   termsContract: Bytes!
   termsContractParameters: Bytes!
 

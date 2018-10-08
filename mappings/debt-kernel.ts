@@ -21,28 +21,25 @@ export function handleDebtOrderFilled(event: LogDebtOrderFilled): void {
     debtOrder.setAddress('relayer', event.params._relayer)
     debtOrder.setU256('relayerFee', event.params._relayerFee)
 
-
-
     store.set('DebtOrder', id, debtOrder)
 }
 
 export function handleIssuanceCancelled(event: LogIssuanceCancelled): void {
     let id = event.params._agreementId.toHex()
 
-    let issuance = store.get('Issuance', 'id')
+    let issuance = store.get('Issuance', id) as Entity
     issuance.setAddress('cancelledBy', event.params._cancelledBy)
 
-    store.set('DebtOrder', id, issuance as Entity)
+    store.set('DebtOrder', id, issuance)
 
 }
 
 export function handleDebtCancelled(event: LogDebtOrderCancelled): void {
-    let id = event.params._debtOrderHash.toHex()
-
-    let debtOrder = store.get('DebtOrder', 'id')
-    debtOrder.setAddress('cancelledBy', event.params._cancelledBy)
-
-    store.set('DebtOrder', id, debtOrder as Entity)
-
-
+    // TODO:
+    // let id = event.params._debtOrderHash.toHex()
+    //
+    // let debtOrder = store.get('DebtOrder', id) as Entity
+    // debtOrder.setAddress('cancelledBy', event.params._cancelledBy)
+    //
+    // store.set('DebtOrder', id, debtOrder)
 }
