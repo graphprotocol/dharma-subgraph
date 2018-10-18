@@ -1,64 +1,54 @@
 
-##################### main contract DebtKernal.sol
+# Contract used - Debtkernal.sol
+# Events used - LogDebtOrderFilled, LogIssuanceCancelled, LogDebtOrderCancelled,
+# Contract used - DebtRegistry.sol
+# Events ysed - LogModifyEntryBeneficiary, LogInsertEntry,
 type DebtOrder @entity {
-  issuance: Issuance @derivedFrom(field: "debtOrder")
-  collateral: Collateral @derivedFrom(field: "debtOrder")
-  repayment: Repayment @derivedFrom(field: "debtOrder")
-  registered: RegisteredDebt @derivedFrom(field: "debtOrder")
-  id: ID!
+#  collaterals: Collateral #@derivedFrom(field: "debtOrder")
+#  repayment: Repayment @derivedFrom(field: "debtOrder")
+  id: ID! #agreement ID
   principle: BigInt
   principleToken: Bytes
   underwriter: Bytes
-  underWriterFee: BigInt
+  underwriterFee: BigInt
   relayer: Bytes
   relayerFee: BigInt
-  cancelledBy: Bytes #from LogIssuanceCancelled()
-}
-
-##################### main contract DebtKernal.sol
-type Issuance @entity {
-  id: ID! #_agreementID
-  debtOrder: DebtOrder!
-  cancelledBy: Bytes # from LogIssuanceCancelle()
-}
-
-
-###################### main contract DebtRegistry.sol
-type RegisteredDebt @entity {
-  id: ID! #agreement ID
-  debtOrder: DebtOrder
-  beneficiary: Bytes! #LogModifyEntryBeneficary Too
-  previousBenefactors: [Bytes] #LogModifyEntryBeneficary Too
-  underwriter: Bytes
+  cancelledBy: Bytes #from event LogIssuanceCancelled - which is never called on mainnet or kovan, so far... so it is always blank
+  beneficiary: Bytes!
   underwriterRiskRating: BigInt
   termsContract: Bytes!
   termsContractParameters: Bytes!
-
-  # CAN be grabbed by the get() function
-  #  version: Bytes!
-  #  issuanceBlockTimestamp: BigInt!
-
 }
 
-###################### main contract - ERC721Collateralizer.sol
-# ColateralLockedEvent() initiates the storage of this. Other two events update bools only
+# NOTE: Should not be included with entity DebtOrder. This is because a cancelled
+# debt order happens before the debt order ever gets accepted, or is ever on chain.
+# Contract used - DebtKernal.sol
+# Events used - LogDebtOrderCancelled
+type CancelledDebtOrder @entity {
+  id: ID! # debtOrderHash
+  cancelledBy: Bytes
+}
+
+# Contract used - ERC721Collateralizer.sol
+# Events used - CollateralLocked, CollateralReturned, CollateralSeized
 type Collateral @entity {
-  debtor: Bytes!
   id: ID! #agreementID
-  erc721Address: Bytes!
-  tokenID: BigInt!
-  debtOrder: DebtOrder!
-  returned: Boolean! # only happens it CollateralReturn() is emitted
-  seized: Boolean! # only happens if CollateralSeized() is emitted
+  tokenAddress: Bytes
+  amount: BigInt
+#  debtOrder: DebtOrder!
+  status: String
+  collateralReturnedTo: Bytes # this either goes to the collateralizer, or the beneficiary
 
 }
 
-###################### main contract - RepaymentRouter.sol
+# Contract used -  RepaymentRouter.sol
+# Event used - LogRepayment
 type Repayment @entity {
   id: ID!
-  payer: Bytes!
-  beneficiary: Bytes!
-  amount: Int!
-  tokenAddress: Bytes!
-  debtOrder: DebtOrder!
+  payers: [Bytes]
+  beneficiaries: [Bytes]
+  amounts: [BigInt]
+  tokenAddresses: [Bytes]
+  amountRepaid: BigInt
+#  debtOrder: DebtOrder!
 }

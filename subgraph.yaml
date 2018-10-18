@@ -5,7 +5,7 @@ dataSources:
 - kind: ethereum/contract
   name: DebtRegistry
   source:
-    address: "0x4e0f2b97307ad60b741f993c052733acc1ea5811"
+    address: "0x9662d6cae0e6914a388cb96c1c161cc4d12c3d7a" # Kovan: 0x9662d6cae0e6914a388cb96c1c161cc4d12c3d7a Mainnet: 0x4e0f2b97307ad60b741f993c052733acc1ea5811
     abi: DebtRegistry
   mapping:
     kind: ethereum/events
@@ -25,7 +25,7 @@ dataSources:
 - kind: ethereum/contract
   name: DebtKernel
   source:
-    address: "0x8ef1351941d0cd8da09d5a4c74f2d64503031a18"
+    address: "0x755e131019e5ab3e213dc269a4020e3e82e06e20" # Kovan: 0x755e131019e5ab3e213dc269a4020e3e82e06e20 Mainnet: 0x8ef1351941d0cd8da09d5a4c74f2d64503031a18
     abi: DebtKernel
   mapping:
     kind: ethereum/events
@@ -37,50 +37,50 @@ dataSources:
     - name: DebtKernel
       file: ./abis/DebtKernel.json
     eventHandlers:
-    - event: LogDebtOrderFilled(bytes32,uint256,address,address,uint256,address,uint256)
+    - event: LogDebtOrderFilled(bytes32,uint256,address,address,uint256,address,uint256) #0x4d61b488582cd44b5157ec41d5a9cfcc0595cc347661eda1d84cc40d7e943fb3 event signature
       handler: handleDebtOrderFilled
-    - event: LogIssuanceCancelled(bytes32,address)
+    - event: LogIssuanceCancelled(bytes32,address) # 0x77b488cc12f7f1c1527489c59889ce053dfc7115033f9b5d147fd7a8bdbc3a47 event signature - THIS EVENT HAS NEVER BEEN CALLED ON TEST OR MAINNNET
       handler: handleIssuanceCancelled
-    - event: LogDebtOrderCancelled(bytes32,address)
+    - event: LogDebtOrderCancelled(bytes32,address) #0x781502ecbc7096cfe7d502e0027f02eedf4ce6d62162cd3bd45d1a3dd98b8c23 event signature
       handler: handleDebtCancelled
     file: ./mappings/debt-kernel.ts
-#- kind: ethereum/contract
-#  name: ERC721Collateralizer
-#  source:
-#    address: "0xecc718386176d714dc9e4e35e177396b291499ee"
-#    abi: ERC721Collateralizer
-#  mapping:
-#    kind: ethereum/events
-#    apiVersion: 0.0.1
-#    language: wasm/assemblyscript
-#    entities:
-#    - Collateral
-#    abis:
-#    - name: ERC721Collateralizer
-#      file: ./abis/ERC721Collateralizer.json
-#    eventHandlers:
-#    - event: CollateralLocked(bytes32,address,uint256)
-#      handler: handleLock
-#    - event: CollateralReturned(bytes32,address,address,uint256)
-#      handler: handleReturned
-#    - event: CollateralSeized(bytes32,address,address,uint256)
-#      handler: handleSeized
-#    file: ./mappings/collateralizer.ts
-#- kind: ethereum/contract
-#  name: RepaymentRouter
-#  source:
-#    address: "0xc1df9b92645cc3b6733992c692a39c34a86fae5f"
-#    abi: RepaymentRouter
-#  mapping:
-#    kind: ethereum/events
-#    apiVersion: 0.0.1
-#    language: wasm/assemblyscript
-#    entities:
-#    - Repayment
-#    abis:
-#    - name: RepaymentRouter
-#      file: ./abis/RepaymentRouter.json
-#    eventHandlers:
-#    - event: LogRepayment(bytes32,address,address,uint,address)
-#      handler: handleRepayment
-#    file: ./mappings/repayment-router.ts
+- kind: ethereum/contract
+  name: Collateralizer
+  source:
+    address: "0x4b86bbe375577262cb0b3b7893e3de0d11751dd6"
+    abi: Collateralizer
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Collateral
+    abis:
+    - name: Collateralizer
+      file: ./abis/Collateralizer.json
+    eventHandlers:
+    - event: CollateralLocked(bytes32,address,uint256)
+      handler: handleLock
+    - event: CollateralReturned(bytes32,address,address,uint256)
+      handler: handleReturned
+    - event: CollateralSeized(bytes32,address,address,uint256)
+      handler: handleSeized
+    file: ./mappings/collateralizer.ts
+- kind: ethereum/contract
+  name: RepaymentRouter
+  source:
+    address: "0x0688659d5e36896da7e5d44ebe3e10aa9d2c9968"
+    abi: RepaymentRouter
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Repayment
+    abis:
+    - name: RepaymentRouter
+      file: ./abis/RepaymentRouter.json
+    eventHandlers:
+    - event: LogRepayment(bytes32,address,address,uint256,address)
+      handler: handleRepayment
+    file: ./mappings/repayment-router.ts
