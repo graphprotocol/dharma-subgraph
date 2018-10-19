@@ -11,7 +11,7 @@ import { LogRepayment } from '../types/RepaymentRouter/RepaymentRouter'
 export function handleRepayment(event: LogRepayment): void {
   let id = event.params._agreementId.toHex()
 
-  let repayment = store.get('Repayment', 'id') as Entity
+  let repayment = store.get('Repayment', 'id')
 
   if (repayment == null) {
     repayment = new Entity()
@@ -31,9 +31,9 @@ export function handleRepayment(event: LogRepayment): void {
   amounts.push(Value.fromU256(event.params._amount))
 
   // dont have to set again when fixed
-  repayment.setArray('payer', payers)
-  repayment.setArray('beneficiary', beneficiaries)
-  repayment.setArray('amount', amounts)
+  // repayment.setArray('payer', payers)
+  // repayment.setArray('beneficiary', beneficiaries)
+  // repayment.setArray('amount', amounts)
 
   store.set('Repayment', id, repayment as Entity)
 }
