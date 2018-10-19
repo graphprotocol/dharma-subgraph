@@ -4,8 +4,6 @@
 # Contract used - DebtRegistry.sol
 # Events ysed - LogModifyEntryBeneficiary, LogInsertEntry,
 type DebtOrder @entity {
-#  collaterals: Collateral #@derivedFrom(field: "debtOrder")
-#  repayment: Repayment @derivedFrom(field: "debtOrder")
   id: ID! #agreement ID
   principle: BigInt
   principleToken: Bytes
@@ -18,6 +16,19 @@ type DebtOrder @entity {
   underwriterRiskRating: BigInt
   termsContract: Bytes!
   termsContractParameters: Bytes!
+# amountRepaid: BigInt # not in use right now, if included it needs addition of U256
+# collaterals: Collateral #DOESNT WORK
+}
+
+# Contract used - ERC721Collateralizer.sol
+# Events used - CollateralLocked, CollateralReturned, CollateralSeized
+type Collateral @entity {
+  id: ID! #agreementID
+  tokenAddress: Bytes
+  amount: BigInt
+  status: String
+  collateralReturnedTo: Bytes # this either goes to the collateralizer, or the beneficiary
+# debtOrder: DebtOrder #DOESNT WORK
 }
 
 # NOTE: Should not be included with entity DebtOrder. This is because a cancelled
@@ -29,26 +40,13 @@ type CancelledDebtOrder @entity {
   cancelledBy: Bytes
 }
 
-# Contract used - ERC721Collateralizer.sol
-# Events used - CollateralLocked, CollateralReturned, CollateralSeized
-type Collateral @entity {
-  id: ID! #agreementID
-  tokenAddress: Bytes
-  amount: BigInt
-#  debtOrder: DebtOrder!
-  status: String
-  collateralReturnedTo: Bytes # this either goes to the collateralizer, or the beneficiary
-
-}
-
 # Contract used -  RepaymentRouter.sol
 # Event used - LogRepayment
+# FIXME: array pushing is broken right now, so arrays are stuck at length of 1, and overwrite themselves
 type Repayment @entity {
   id: ID!
   payers: [Bytes]
   beneficiaries: [Bytes]
   amounts: [BigInt]
   tokenAddresses: [Bytes]
-  amountRepaid: BigInt
-#  debtOrder: DebtOrder!
 }

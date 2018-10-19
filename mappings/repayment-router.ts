@@ -11,7 +11,7 @@ import { LogRepayment } from '../types/RepaymentRouter/RepaymentRouter'
 export function handleRepayment(event: LogRepayment): void {
   let id = event.params._agreementId.toHex()
 
-  let repayment = store.get('Repayment', 'id')
+  let repayment = store.get('Repayment', 'id') as Entity
 
   if (repayment == null) {
     repayment = new Entity()
@@ -19,14 +19,13 @@ export function handleRepayment(event: LogRepayment): void {
     repayment.setArray('beneficiaries', new Array<Value>())
     repayment.setArray('amounts', new Array<Value>())
     repayment.setArray('tokenAddresses', new Array<Value>())
-    // repayment.setU256('amountRepaid', 0)
+    // repayment.setU256('amountRepaid', event.params._amount)
   }
 
   let payers = repayment.getArray('payers')
   let beneficiaries = repayment.getArray('beneficiaries')
   let amounts = repayment.getArray('amounts')
   let tokenAddresses = repayment.getArray('tokenAddresses')
-  // let previousPaid =
 
   payers.push(Value.fromAddress(event.params._payer))
   beneficiaries.push(Value.fromAddress(event.params._beneficiary))
@@ -37,9 +36,21 @@ export function handleRepayment(event: LogRepayment): void {
   repayment.setArray('beneficiary', beneficiaries)
   repayment.setArray('amount', amounts)
   repayment.setArray('tokenAddress', tokenAddresses)
-  // repayment.setU256('amountRepaid', event.params._amount)
-
 
   store.set('Repayment', id, repayment as Entity)
 }
 
+// So that we don't add twice on the first try
+// if (repayment != null) {
+//   let previousPaid = repayment.getU256('amountRepaid')
+//   let combined = addition(event.params._amount, previousPaid)
+//   repayment.setU256('amountRepaid', combined)
+// }
+
+// function addition(a: U256, b: U256): U256 {
+//   let first = Number(a)
+//   let second = Number(b)
+//   let total = first + second
+//   let final = <U256>(total)
+//   return total as U256
+// }
