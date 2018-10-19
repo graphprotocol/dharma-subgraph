@@ -1,4 +1,4 @@
-#Dharma Subgraph
+# Dharma Subgraph
 
 This is a Subgraph for the [Dharma contracts](https://github.com/dharmaprotocol/charta). It is specifically designed so that the subgraph encompasses all the 
 information required for the [Dharma Plex Dapp](https://plex.dharma.io/) to function. 
