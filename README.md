@@ -89,41 +89,38 @@ The query below shows all the information that is possible to query, but limited
 
 ```
 {
-  debtOrders(first: 5) {
-  id
-  beneficiary
-  cancelledBy
-  principle
-  principleToken
-  relayer
-  relayerFee
-  termsContract
-  termsContractParameters
-  underwriter
-  underwriterFee
-  underwriterRiskRating
-  }
+  debtOrders(first: 10) {
+    id
+    beneficiary
+    issuanceCancelledBy
+    collaterals{
+      id
+      status
+      tokenAddress
+      collateralReturnedTo
+      amount
+    }
+    principle
+    principleToken
+    relayer
+    relayerFee
+    repayments{
+      id
+      payers
+      amounts
+      beneficiaries
+    }
+    termsContract
+    termsContractParameters
+    underwriter
+    underwriterFee
+    underwriterRiskRating
+   }
   
-  cancelledDebtOrders(first: 5){
-    id
-    cancelledBy
-  }
-    
-  collaterals(first: 5){
-    id
-    tokenAddress
-    amount
-    status
-    collateralReturnedTo
-  }
-
-  repayments(first: 5){
-    id
-    amounts
-    payers
-    tokenAddresses
-    beneficiaries
-  }
+	cancelledDebtOrders(first: 10){
+	  id
+	  cancelledBy
+	}
 }
 ```
 

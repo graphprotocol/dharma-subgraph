@@ -18,24 +18,22 @@ export function handleRepayment(event: LogRepayment): void {
     repayment.setArray('payers', new Array<Value>())
     repayment.setArray('beneficiaries', new Array<Value>())
     repayment.setArray('amounts', new Array<Value>())
-    repayment.setArray('tokenAddresses', new Array<Value>())
+    repayment.setString('debtOrder', id)
     // repayment.setU256('amountRepaid', event.params._amount)
   }
 
   let payers = repayment.getArray('payers')
   let beneficiaries = repayment.getArray('beneficiaries')
   let amounts = repayment.getArray('amounts')
-  let tokenAddresses = repayment.getArray('tokenAddresses')
 
   payers.push(Value.fromAddress(event.params._payer))
   beneficiaries.push(Value.fromAddress(event.params._beneficiary))
   amounts.push(Value.fromU256(event.params._amount))
-  tokenAddresses.push(Value.fromAddress(event.params._token))
 
+  // dont have to set again when fixed
   repayment.setArray('payer', payers)
   repayment.setArray('beneficiary', beneficiaries)
   repayment.setArray('amount', amounts)
-  repayment.setArray('tokenAddress', tokenAddresses)
 
   store.set('Repayment', id, repayment as Entity)
 }

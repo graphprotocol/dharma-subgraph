@@ -13,9 +13,10 @@ export function handleLock(event: CollateralLocked): void {
   let id = event.params.agreementID.toHex()
 
   collateral.setString('id', id)
-  collateral.setAddress('erc721Address', event.params.token)
+  collateral.setAddress('tokenAddress', event.params.token)
   collateral.setU256('amount', event.params.amount)
   collateral.setString('status', "locked")
+  collateral.setString('debtOrder', id)
 
   store.set('Collateral', id, collateral)
 }
