@@ -11,7 +11,7 @@ import { LogRepayment } from '../types/RepaymentRouter/RepaymentRouter'
 export function handleRepayment(event: LogRepayment): void {
   let id = event.params._agreementId.toHex()
 
-  let repayment = store.get('Repayment', 'id')
+  let repayment = store.get('Repayment', id)
 
   if (repayment == null) {
     repayment = new Entity()
