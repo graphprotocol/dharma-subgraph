@@ -59,7 +59,6 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
   --ethereum-rpc mainnet-local:http://127.0.0.1:8545 
 ```
   6. c) Or Infura Kovan _(NOTE: Infura Kovan is not reliable right now, we get inconsistent results returned. If Kovan data is needed, it is suggested to run your own Kovan node)_
-  ---
 ```
     cargo run -p graph-node --release --   
     --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-kovan-subgraph 
