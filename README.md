@@ -3,7 +3,7 @@
 This is a subgraph for the [Dharma Protocol](https://github.com/dharmaprotocol/charta). It is specifically designed so that the subgraph holds all the 
 information required for the [Dharma Plex Dapp](https://plex.dharma.io/) to function. 
 
-This requires the following four contracts to be ingested by the subgraph, with all events needed listed as well:
+This requires the following four contracts to be ingested by the subgraph, with the events that were sourced to be stored in the subgraph database:
 * DebtKernal.sol
     * LogDebtOrderFilled
     * LogIssuanceCancelled
@@ -18,19 +18,15 @@ This requires the following four contracts to be ingested by the subgraph, with 
 * RepaymentRouter.sol
     * LogRepayment
 
-This can be used for both the Kovan network  contracts and the Mainnet contracts. In order to do
+This can be used for both the Kovan network contracts and the Mainnet contracts. In order to do
 so the `subgraph.yaml` file will need to have the contract addresses changed to point to the 
-correct address for the network upon start of the subgraph. 
-
+correct address for each respective network.
 
 ## Brief Description of The Graph Node Setup
 
-A Graph Node can run multiple subgraphs, and in this case it can store data for both Mainnet and Kovan. The subgraph ingests and stores events by calling to Infura through http. It can also connect to any geth node or parity node that accepts RPC calls. Fast synced geth nodes work, and to use parity, `--no-warp` must be used. Setting up a local Ethereum node is more reliable and faster, but Infura is the easiest way to get started. 
+A Graph Node can run multiple subgraphs, and in this case it can have a subgraph for both Mainnet and Kovan. The subgraph ingests event data by calling to Infura through http. It can also connect to any geth node or parity node that accepts RPC calls. Fast synced geth nodes work. To use parity, the `--no-warp` flag must be used. Setting up a local Ethereum node is more reliable and faster, but Infura is the easiest way to get started. 
 
-
-
-This subgraph has three types of files which tell the Graph Node to ingest events from specific contracts
-They are:
+This subgraph has three types of files which tell the Graph Node to ingest events from specific contracts. They are:
 * The subgraph manifest (subgraph.yaml)
 * A GraphQL schema      (schema.graphql)
 * Mapping scripts      (debt-kernal.ts, debt-registry.ts, repayment-router.ts, collateralizer.ts)
@@ -54,26 +50,16 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
   --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/mainnet-dharma-subgraph \
   --ipfs 127.0.0.1:5001 \
   --ethereum-rpc mainnet-infura:https://mainnet.infura.io 
-
 ```
-
   6. b) Or Mainnet Local:
-
 ```
   cargo run -p graph-node --release -- \
   --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/mainnet-dharma-subgraph \
   --ipfs 127.0.0.1:5001 \
   --ethereum-rpc mainnet-local:http://127.0.0.1:8545 
-
 ```
-
-  6. c) Or Infura Kovan:
-  
+  6. c) Or Infura Kovan _(NOTE: Infura Kovan is not reliable right now, we get inconsistent results returned. If Kovan data is needed, it is suggested to run your own Kovan node)_
   ---
-  **NOTE**: 
-  Infura Kovan is not reliable right now, we get inconsistent results returned. If Kovan data is needed, it is suggested to run your own Kovan node. A Localhost example is provided below. 
-  ---
-  
 ```
     cargo run -p graph-node --release --   
     --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-kovan-subgraph 
@@ -81,7 +67,6 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
     --ethereum-rpc kovan-infura:https://kovan.infura.io 
 
 ```
-
  6. d) Or a Kovan local node which was started with `parity --chain=kovan --no-warp  --jsonrpc-apis="all" `:
  
  ```
