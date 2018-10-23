@@ -37,7 +37,7 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
 
 ## Steps to get the Dharma-Subgraph Running 
   1. Install IPFS and run `ipfs init` followed by `ipfs daemon`
-  2. Install PostgreSQL and run `initdb -D .postgres` followed by `pg_ctl -D .postgres start` and `createdb dharma-subgraph`
+  2. Install PostgreSQL and run `initdb -D .postgres` followed by `pg_ctl -D .postgres start` and `createdb mainnet-dharma-subgraph` (note this db name is used in the commands below for the mainnet examples)
   3. If using Ubuntu, you may need to install additional packages: `sudo apt-get install -y clang libpq-dev libssl-dev pkg-config`
   4. Clone this repository, and run the following:
      * `yarn`
