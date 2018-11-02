@@ -2,53 +2,55 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-// Import types and APIs from graph-ts
-import { Entity, store, Value } from '@graphprotocol/graph-ts'
+// Import APIs from graph-ts
+import { store } from '@graphprotocol/graph-ts'
 
 // Import event types from the registrar contract ABI
 import { LogRepayment } from '../types/RepaymentRouter/RepaymentRouter'
 
+// Import entity types from the schema
+import { Repayment } from '../types/schema'
+
 export function handleRepayment(event: LogRepayment): void {
   let id = event.params._agreementId.toHex()
 
-  let repayment = store.get('Repayment', id)
+  let repayment = store.get('Repayment', id) as Repayment | null
 
   if (repayment == null) {
-    repayment = new Entity()
-    repayment.setArray('payers', new Array<Value>())
-    repayment.setArray('beneficiaries', new Array<Value>())
-    repayment.setArray('amounts', new Array<Value>())
-    repayment.setString('debtOrder', id)
-    // repayment.setU256('amountRepaid', event.params._amount)
+    repayment = new Repayment()
+    repayment.payers = []
+    repayment.beneficiaries = []
+    repayment.amounts = []
+    repayment.debtOrder = id
+    // repayment.amountRepaid = event.params._amount
   }
 
-  let payers = repayment.getArray('payers')
-  let beneficiaries = repayment.getArray('beneficiaries')
-  let amounts = repayment.getArray('amounts')
+  let payers = repayment.payers
+  let beneficiaries = repayment.beneficiaries
+  let amounts = repayment.amounts
 
-  payers.push(Value.fromAddress(event.params._payer))
-  beneficiaries.push(Value.fromAddress(event.params._beneficiary))
-  amounts.push(Value.fromU256(event.params._amount))
+  payers.push(event.params._payer)
+  beneficiaries.push(event.params._beneficiary)
+  amounts.push(event.params._amount)
 
   // dont have to set again when fixed
-  // repayment.setArray('payer', payers)
-  // repayment.setArray('beneficiary', beneficiaries)
-  // repayment.setArray('amount', amounts)
+  // repayment.payers payers
+  // repayment.beneficiarys beneficiaries
+  // repayment.amounts, amounts
 
-  store.set('Repayment', id, repayment as Entity)
+  store.set('Repayment', id, repayment as Repayment)
 }
 
 // So that we don't add twice on the first try
 // if (repayment != null) {
-//   let previousPaid = repayment.getU256('amountRepaid')
+//   let previousPaid = repayment.amountRepaid
 //   let combined = addition(event.params._amount, previousPaid)
-//   repayment.setU256('amountRepaid', combined)
+//   repayment.amountRepaid = combined
 // }
 
-// function addition(a: U256, b: U256): U256 {
+// function addition(a: BigInt, b: BigInt): BigInt {
 //   let first = Number(a)
 //   let second = Number(b)
 //   let total = first + second
-//   let final = <U256>(total)
-//   return total as U256
+//   return total as BigInt
 // }

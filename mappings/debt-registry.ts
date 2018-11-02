@@ -2,30 +2,36 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-// Import types and APIs from graph-ts
-import { Entity, store } from '@graphprotocol/graph-ts'
+// Import APIs from graph-ts
+import { store } from '@graphprotocol/graph-ts'
 
 // Import event types from the registrar contract ABI
-import { LogInsertEntry, LogModifyEntryBeneficiary } from '../types/DebtRegistry/DebtRegistry'
+import {
+  LogInsertEntry,
+  LogModifyEntryBeneficiary,
+} from '../types/DebtRegistry/DebtRegistry'
+
+// Import entity types from the schema
+import { DebtOrder } from '../types/schema'
 
 export function handleLogInsertEntry(event: LogInsertEntry): void {
-    let entry = new Entity()
-    let id = event.params.agreementId.toHex()
+  let id = event.params.agreementId.toHex()
 
-    entry.setString('id', id)
-    entry.setAddress('beneficiary', event.params.beneficiary)
-    entry.setAddress('underwriter', event.params.underwriter)
-    entry.setU256('underwriterRiskRating', event.params.underwriterRiskRating)
-    entry.setAddress('termsContract', event.params.termsContract)
-    entry.setBytes('termsContractParameters', event.params.termsContractParameters)
+  let debtOrder = new DebtOrder()
+  debtOrder.beneficiary = event.params.beneficiary
+  debtOrder.underwriter = event.params.underwriter
+  debtOrder.underwriterRiskRating = event.params.underwriterRiskRating
+  debtOrder.termsContract = event.params.termsContract
+  debtOrder.termsContractParameters = event.params.termsContractParameters
 
-    store.set('DebtOrder', id, entry)
+  store.set('DebtOrder', id, debtOrder)
 }
 
 export function handleModifyBeneficiary(event: LogModifyEntryBeneficiary): void {
-    let id = event.params.agreementId.toHex()
-    let regDebt = new Entity()
+  let id = event.params.agreementId.toHex()
 
-    regDebt.setAddress('beneficiary', event.params.newBeneficiary)
-    store.set('DebtOrder', id, regDebt)
+  let debtOrder = new DebtOrder()
+  debtOrder.beneficiary = event.params.newBeneficiary
+
+  store.set('DebtOrder', id, debtOrder)
 }

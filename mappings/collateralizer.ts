@@ -2,40 +2,47 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-// Import types and APIs from graph-ts
-import { Entity, store } from '@graphprotocol/graph-ts'
+// Import APIs from graph-ts
+import { store } from '@graphprotocol/graph-ts'
 
 // Import event types from the registrar contract ABI
-import { CollateralLocked, CollateralReturned, CollateralSeized } from '../types/Collateralizer/Collateralizer'
+import {
+  CollateralLocked,
+  CollateralReturned,
+  CollateralSeized,
+} from '../types/Collateralizer/Collateralizer'
+
+// Import entity types from the schema
+import { Collateral } from '../types/schema'
 
 export function handleLock(event: CollateralLocked): void {
-  let collateral = new Entity()
   let id = event.params.agreementID.toHex()
 
-  collateral.setString('id', id)
-  collateral.setAddress('tokenAddress', event.params.token)
-  collateral.setU256('amount', event.params.amount)
-  collateral.setString('status', "locked")
-  collateral.setString('debtOrder', id)
+  let collateral = new Collateral()
+  collateral.tokenAddress = event.params.token
+  collateral.amount = event.params.amount
+  collateral.status = 'locked'
+  collateral.debtOrder = id
 
   store.set('Collateral', id, collateral)
 }
 
 export function handleReturned(event: CollateralReturned): void {
-  let returning = new Entity()
   let id = event.params.agreementID.toHex()
 
-  returning.setAddress('collateralReturnedTo', event.params.collateralizer)
-  returning.setString('status', "returned")
+  let collateral = new Collateral()
+  collateral.collateralReturnedTo = event.params.collateralizer
+  collateral.status = 'returned'
 
-  store.set('Collateral', id, returning)
+  store.set('Collateral', id, collateral)
 }
 
 export function handleSeized(event: CollateralSeized): void {
-  let seizing = new Entity()
   let id = event.params.agreementID.toHex()
 
-  seizing.setAddress('collateralReturnedTo', event.params.beneficiary)
-  seizing.setString('status', "seized")
-  store.set('Collateral', id, seizing)
+  let collateral = new Collateral()
+  collateral.collateralReturnedTo = event.params.beneficiary
+  collateral.status = 'seized'
+
+  store.set('Collateral', id, collateral)
 }
