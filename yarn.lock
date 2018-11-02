@@ -2,22 +2,24 @@
 # yarn lockfile v1
 
 
-"@graphprotocol/graph-cli@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.3.2.tgz#95be1baa8e7f27d261420b94d309c531722c66c2"
-  integrity sha512-kgVQUVQo1rnODEdBxyyzd8/TgXeLo9QcPAgeA+DLz4bT13pn4yLQ3q1XbzyjHie1KnHJ1NlBXiBNrXuzSrmS9A==
+"@graphprotocol/graph-cli@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.4.0.tgz#9f5201d211ceea588d964cb202cc103a74f29355"
+  integrity sha512-Mgi95Bi2bpjHjtPObe4XRjV80j+s6gWUixtqmHjwdGZgd44O1OxvZPTdYODCqhOb/wIGUvMZ8N/Ml26TO+iX2w==
   dependencies:
     assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
     chalk "^2.4.1"
     chokidar "^2.0.4"
-    commander "^2.15.1"
+    commander "^2.18.0"
     debug "^3.1.0"
     fs-extra "^6.0.1"
     glob "^7.1.2"
+    graphql "^14.0.2"
     immutable "^3.8.2"
     ipfs-api "^22.2.1"
     jayson "^2.0.6"
     js-yaml "^3.12.0"
+    pkginfo "^0.4.1"
     prettier "^1.13.5"
     request "^2.88.0"
     winston "^3.0.0"
@@ -28,6 +30,13 @@
   integrity sha512-x8W/TP22TLOyl5uD1v5nSUedgEIwzrQoEINZmhy12zxT2EZM/1hj/+v0FYgevCv3lvnw2wI8R3tJMNrvUF2Hkg==
   dependencies:
     assemblyscript "^0.3.0"
+
+"@graphprotocol/graph-ts@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.4.0.tgz#4327b25dd6cfa7c484debdffc48c0844ad6b5d24"
+  integrity sha512-xxXZzm6a6kxDlXPNjD+6CbOWjNluj79iIvgCqDrgUBvlByL3iybXyLyWVCh24/G9nQ5PNqJe1oD4R8T+aLl9iw==
+  dependencies:
+    assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
 
 "@protobufjs/utf8@^1.1.0":
   version "1.1.0"
@@ -157,6 +166,15 @@ assemblyscript@^0.3.0:
     chalk "^2.1.0"
     minimist "^1.2.0"
     wabt "0.0.13-nightly.20170628"
+
+"assemblyscript@git+https://github.com/AssemblyScript/assemblyscript.git#c4ebc8c291c1068da73ddf1a381eab93e1f69e11":
+  version "0.5.0"
+  uid c4ebc8c291c1068da73ddf1a381eab93e1f69e11
+  resolved "git+https://github.com/AssemblyScript/assemblyscript.git#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
+  dependencies:
+    "@protobufjs/utf8" "^1.1.0"
+    binaryen "48.0.0-nightly.20180627"
+    long "^4.0.0"
 
 "assemblyscript@https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11":
   version "0.5.0"
@@ -558,10 +576,15 @@ commander@^2.12.2:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.18.0.tgz#2bf063ddee7c7891176981a2cc798e5754bc6970"
   integrity sha512-6CYPa+JP2ftfRU2qkDK+UTVeQYosOg/2GbcjIcKPHfinyOLPVGXu/ovN86RP49Re5ndJK1N0kuiidFFuepc4ZQ==
 
-commander@^2.15.0, commander@^2.15.1:
+commander@^2.15.0:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
+
+commander@^2.18.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
+  integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
 component-emitter@^1.2.1:
   version "1.2.1"
@@ -995,6 +1018,13 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
   integrity sha1-Dovf5NHduIVNZOBOp8AOKgJuVlg=
 
+graphql@^14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.0.2.tgz#7dded337a4c3fd2d075692323384034b357f5650"
+  integrity sha512-gUC4YYsaiSJT1h40krG3J+USGlwhzNTXSb4IOZljn9ag5Tj+RkoXrWp+Kh7WyE3t1NCfab5kzCuxBIvOMERMXw==
+  dependencies:
+    iterall "^1.2.2"
+
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
@@ -1412,6 +1442,11 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
+
+iterall@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
+  integrity sha512-yynBb1g+RFUPY64fTrFv7nsjRrENBQJaX2UL+2Szc9REFrSNm1rpSXHGzhmAy7a9uv3vlvgBlXnf9RqmPH1/DA==
 
 jayson@^2.0.6:
   version "2.0.6"
@@ -2118,6 +2153,11 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
+
+pkginfo@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/pkginfo/-/pkginfo-0.4.1.tgz#b5418ef0439de5425fc4995042dced14fb2a84ff"
+  integrity sha1-tUGO8EOd5UJfxJlQQtztFPsqhP8=
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
