@@ -34,9 +34,9 @@ export function handleRepayment(event: LogRepayment): void {
   amounts.push(event.params._amount)
 
   // dont have to set again when fixed
-  // repayment.payers payers
-  // repayment.beneficiarys beneficiaries
-  // repayment.amounts, amounts
+  repayment.payers = payers
+  repayment.beneficiaries = beneficiaries
+  repayment.amounts = amounts
 
   store.set('Repayment', id, repayment as Repayment)
 }
