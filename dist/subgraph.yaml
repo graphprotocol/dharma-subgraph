@@ -1,0 +1,89 @@
+specVersion: 0.0.1
+description: Dharma subgraph
+repository: 'https://github.com/graphprotocol/dharma-subgraph'
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: DebtRegistry
+    source:
+      address: '0x4e0f2b97307ad60b741f993c052733acc1ea5811'
+      abi: DebtRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Entry
+      abis:
+        - name: DebtRegistry
+          file: DebtRegistry/abis/DebtRegistry.json
+      eventHandlers:
+        - event: 'LogInsertEntry(bytes32,address,address,uint256,address,bytes32)'
+          handler: handleLogInsertEntry
+        - event: 'LogModifyEntryBeneficiary(bytes32,address,address)'
+          handler: handleModifyBeneficiary
+      file: DebtRegistry/DebtRegistry.wasm
+  - kind: ethereum/contract
+    name: DebtKernel
+    source:
+      address: '0x8ef1351941d0cd8da09d5a4c74f2d64503031a18'
+      abi: DebtKernel
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - RegisteredDebt
+      abis:
+        - name: DebtKernel
+          file: DebtKernel/abis/DebtKernel.json
+      eventHandlers:
+        - event: >-
+            LogDebtOrderFilled(bytes32,uint256,address,address,uint256,address,uint256)
+          handler: handleDebtOrderFilled
+        - event: 'LogIssuanceCancelled(bytes32,address)'
+          handler: handleIssuanceCancelled
+        - event: 'LogDebtOrderCancelled(bytes32,address)'
+          handler: handleDebtCancelled
+      file: DebtKernel/DebtKernel.wasm
+  - kind: ethereum/contract
+    name: Collateralizer
+    source:
+      address: '0xecc718386176d714dc9e4e35e177396b291499ee'
+      abi: Collateralizer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Collateral
+      abis:
+        - name: Collateralizer
+          file: Collateralizer/abis/Collateralizer.json
+      eventHandlers:
+        - event: 'CollateralLocked(bytes32,address,uint256)'
+          handler: handleLock
+        - event: 'CollateralReturned(bytes32,address,address,uint256)'
+          handler: handleReturned
+        - event: 'CollateralSeized(bytes32,address,address,uint256)'
+          handler: handleSeized
+      file: Collateralizer/Collateralizer.wasm
+  - kind: ethereum/contract
+    name: RepaymentRouter
+    source:
+      address: '0xc1df9b92645cc3b6733992c692a39c34a86fae5f'
+      abi: RepaymentRouter
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Repayment
+      abis:
+        - name: RepaymentRouter
+          file: RepaymentRouter/abis/RepaymentRouter.json
+      eventHandlers:
+        - event: 'LogRepayment(bytes32,address,address,uint256,address)'
+          handler: handleRepayment
+      file: RepaymentRouter/RepaymentRouter.wasm

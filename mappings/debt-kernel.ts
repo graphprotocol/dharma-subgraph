@@ -1,10 +1,3 @@
-// Required for dynamic memory allocation in WASM / AssemblyScript
-import 'allocator/arena'
-export { allocate_memory }
-
-// Import APIs from graph-ts
-import { store } from '@graphprotocol/graph-ts'
-
 // Import event types from the registrar contract ABI
 import {
   LogDebtOrderFilled,
@@ -18,7 +11,7 @@ import { CancelledDebtOrder, DebtOrder } from '../types/schema'
 export function handleDebtOrderFilled(event: LogDebtOrderFilled): void {
   let id = event.params._agreementId.toHex()
 
-  let debtOrder = new DebtOrder()
+  let debtOrder = new DebtOrder(id)
   debtOrder.principle = event.params._principal
   debtOrder.principleToken = event.params._principalToken
   debtOrder.underwriter = event.params._underwriter
@@ -27,25 +20,22 @@ export function handleDebtOrderFilled(event: LogDebtOrderFilled): void {
   debtOrder.relayerFee = event.params._relayerFee
   debtOrder.collaterals = []
   debtOrder.repayments = []
-
-  store.set('DebtOrder', id, debtOrder)
+  debtOrder.save()
 }
 
 // This event has never actually been called on mainnet or kovan, so it is returning blank queries
 export function handleIssuanceCancelled(event: LogIssuanceCancelled): void {
   let id = event.params._agreementId.toHex()
 
-  let debtOrder = new DebtOrder()
+  let debtOrder = new DebtOrder(id)
   debtOrder.issuanceCancelledBy = event.params._cancelledBy
-
-  store.set('DebtOrder', id, debtOrder)
+  debtOrder.save()
 }
 
 export function handleDebtCancelled(event: LogDebtOrderCancelled): void {
   let id = event.params._debtOrderHash.toHex()
 
-  let cancelledDebt = new CancelledDebtOrder()
+  let cancelledDebt = new CancelledDebtOrder(id)
   cancelledDebt.cancelledBy = event.params._cancelledBy
-
-  store.set('CancelledDebtOrder', id, cancelledDebt)
+  cancelledDebt.save()
 }

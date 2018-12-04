@@ -1,10 +1,3 @@
-// Required for dynamic memory allocation in WASM / AssemblyScript
-import 'allocator/arena'
-export { allocate_memory }
-
-// Import APIs from graph-ts
-import { store } from '@graphprotocol/graph-ts'
-
 // Import event types from the registrar contract ABI
 import {
   LogInsertEntry,
@@ -17,21 +10,19 @@ import { DebtOrder } from '../types/schema'
 export function handleLogInsertEntry(event: LogInsertEntry): void {
   let id = event.params.agreementId.toHex()
 
-  let debtOrder = new DebtOrder()
+  let debtOrder = new DebtOrder(id)
   debtOrder.beneficiary = event.params.beneficiary
   debtOrder.underwriter = event.params.underwriter
   debtOrder.underwriterRiskRating = event.params.underwriterRiskRating
   debtOrder.termsContract = event.params.termsContract
   debtOrder.termsContractParameters = event.params.termsContractParameters
-
-  store.set('DebtOrder', id, debtOrder)
+  debtOrder.save()
 }
 
 export function handleModifyBeneficiary(event: LogModifyEntryBeneficiary): void {
   let id = event.params.agreementId.toHex()
 
-  let debtOrder = new DebtOrder()
+  let debtOrder = new DebtOrder(id)
   debtOrder.beneficiary = event.params.newBeneficiary
-
-  store.set('DebtOrder', id, debtOrder)
+  debtOrder.save()
 }
