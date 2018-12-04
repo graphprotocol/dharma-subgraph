@@ -1,0 +1,53 @@
+
+# Contract used - Debtkernal.sol
+# Events used - LogDebtOrderFilled, LogIssuanceCancelled, LogDebtOrderCancelled,
+# Contract used - DebtRegistry.sol
+# Events ysed - LogModifyEntryBeneficiary, LogInsertEntry,
+type DebtOrder @entity {
+  id: ID! #agreement ID
+  principle: BigInt!
+  principleToken: Bytes!
+  underwriter: Bytes!
+  underwriterFee: BigInt!
+  relayer: Bytes!
+  relayerFee: BigInt!
+  issuanceCancelledBy: Bytes #from event LogIssuanceCancelled - which is never called on mainnet or kovan, so far... so right now it is expected to be null
+  beneficiary: Bytes!
+  underwriterRiskRating: BigInt!
+  termsContract: Bytes!
+  termsContractParameters: Bytes!
+# amountRepaid: BigInt # not in use right now, if included it needs addition of U256
+  collaterals: [Collateral!] @derivedFrom(field: "debtOrder")
+  repayments: [Repayment!] @derivedFrom(field: "debtOrder")
+}
+
+# Contract used - ERC721Collateralizer.sol
+# Events used - CollateralLocked, CollateralReturned, CollateralSeized
+type Collateral @entity {
+  id: ID! #agreementID
+  tokenAddress: Bytes!
+  amount: BigInt!
+  status: String!
+  collateralReturnedTo: Bytes # this either goes to the collateralizer, or the beneficiary. null if it hasn't been returned yet
+  debtOrder: DebtOrder!
+}
+
+# NOTE: Should not be included with entity DebtOrder. This is because a cancelled
+# debt order happens before the debt order ever gets accepted, or is ever on chain.
+# Contract used - DebtKernal.sol
+# Events used - LogDebtOrderCancelled
+type CancelledDebtOrder @entity {
+  id: ID! # debtOrderHash
+  cancelledBy: Bytes!
+}
+
+# Contract used -  RepaymentRouter.sol
+# Event used - LogRepayment
+# FIXME: array pushing is broken right now, so arrays are stuck at length of 1, and overwrite themselves
+type Repayment @entity {
+  id: ID!
+  payers: [Bytes!]
+  beneficiaries: [Bytes!]
+  amounts: [BigInt!]
+  debtOrder: DebtOrder!
+}
