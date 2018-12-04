@@ -2,9 +2,6 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-// Import APIs from graph-ts
-import { store } from '@graphprotocol/graph-ts'
-
 // Import event types from the registrar contract ABI
 import { LogRepayment } from '../types/RepaymentRouter/RepaymentRouter'
 
@@ -14,10 +11,10 @@ import { Repayment } from '../types/schema'
 export function handleRepayment(event: LogRepayment): void {
   let id = event.params._agreementId.toHex()
 
-  let repayment = store.get('Repayment', id) as Repayment | null
+  let repayment = Repayment.getById(id)
 
   if (repayment == null) {
-    repayment = new Repayment()
+    repayment = new Repayment(id)
     repayment.payers = []
     repayment.beneficiaries = []
     repayment.amounts = []
@@ -38,7 +35,7 @@ export function handleRepayment(event: LogRepayment): void {
   repayment.beneficiaries = beneficiaries
   repayment.amounts = amounts
 
-  store.set('Repayment', id, repayment as Repayment)
+  repayment.save()
 }
 
 // So that we don't add twice on the first try

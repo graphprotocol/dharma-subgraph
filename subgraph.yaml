@@ -1,4 +1,6 @@
 specVersion: 0.0.1
+description: Dharma subgraph
+repository: https://github.com/graphprotocol/dharma-subgraph
 schema:
   file: ./schema.graphql
 dataSources:

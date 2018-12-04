@@ -2,9 +2,6 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-// Import APIs from graph-ts
-import { store } from '@graphprotocol/graph-ts'
-
 // Import event types from the registrar contract ABI
 import {
   CollateralLocked,
@@ -18,31 +15,28 @@ import { Collateral } from '../types/schema'
 export function handleLock(event: CollateralLocked): void {
   let id = event.params.agreementID.toHex()
 
-  let collateral = new Collateral()
+  let collateral = new Collateral(id)
   collateral.tokenAddress = event.params.token
   collateral.amount = event.params.amount
   collateral.status = 'locked'
   collateral.debtOrder = id
-
-  store.set('Collateral', id, collateral)
+  collateral.save()
 }
 
 export function handleReturned(event: CollateralReturned): void {
   let id = event.params.agreementID.toHex()
 
-  let collateral = new Collateral()
+  let collateral = new Collateral(id)
   collateral.collateralReturnedTo = event.params.collateralizer
   collateral.status = 'returned'
-
-  store.set('Collateral', id, collateral)
+  collateral.save()
 }
 
 export function handleSeized(event: CollateralSeized): void {
   let id = event.params.agreementID.toHex()
 
-  let collateral = new Collateral()
+  let collateral = new Collateral(id)
   collateral.collateralReturnedTo = event.params.beneficiary
   collateral.status = 'seized'
-
-  store.set('Collateral', id, collateral)
+  collateral.save()
 }
