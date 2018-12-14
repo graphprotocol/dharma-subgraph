@@ -1,5 +1,7 @@
 specVersion: 0.0.1
-description: Dharma subgraph
+description: >-
+  Platform for building globally-accessible lending products using programmable,
+  tokenized debt
 repository: 'https://github.com/graphprotocol/dharma-subgraph'
 schema:
   file: schema.graphql
