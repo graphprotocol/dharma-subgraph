@@ -6,8 +6,8 @@
   "scripts": {
     "codegen": "graph codegen --output-dir types/ subgraph.yaml",
     "build": "graph build subgraph.yaml",
-    "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml",
-    "deploy": "graph deploy --ipfs /ip4/127.0.0.1/tcp/5001 --node http://127.0.0.1 --subgraph-name dharma subgraph.yaml"
+    "build-ipfs": "graph build --ipfs /ip4//35.239.68.192/tcp/80 subgraph.yaml",
+    "deploy": "graph deploy --ipfs /ip4//35.239.68.192/tcp/80 --node http://35.202.232.77:5000 --subgraph-name dharma subgraph.yaml"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.5.0",
