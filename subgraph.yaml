@@ -1,11 +1,12 @@
 specVersion: 0.0.1
-description: Dharma subgraph
+description: A universal protocol for credit and tokenized debt. Find open and closed debt orders and repayments.
 repository: https://github.com/graphprotocol/dharma-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
 - kind: ethereum/contract
   name: DebtRegistry
+  network: mainnet
   source:
     address: "0x4e0f2b97307ad60b741f993c052733acc1ea5811" # Kovan: 0x9662d6cae0e6914a388cb96c1c161cc4d12c3d7a Mainnet: 0x4e0f2b97307ad60b741f993c052733acc1ea5811
     abi: DebtRegistry
