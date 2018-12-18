@@ -27,6 +27,7 @@ dataSources:
     file: ./mappings/debt-registry.ts
 - kind: ethereum/contract
   name: DebtKernel
+  network: mainnet
   source:
     address: "0x8ef1351941d0cd8da09d5a4c74f2d64503031a18" # Kovan: 0x755e131019e5ab3e213dc269a4020e3e82e06e20 Mainnet: 0x8ef1351941d0cd8da09d5a4c74f2d64503031a18
     abi: DebtKernel
@@ -49,6 +50,7 @@ dataSources:
     file: ./mappings/debt-kernel.ts
 - kind: ethereum/contract
   name: Collateralizer
+  network: mainnet
   source:
     address: "0xecc718386176d714dc9e4e35e177396b291499ee" # Kovan: 0x4b86bbe375577262cb0b3b7893e3de0d11751dd6 Mainnet: 0xecc718386176d714dc9e4e35e177396b291499ee
     abi: Collateralizer
@@ -71,6 +73,7 @@ dataSources:
     file: ./mappings/collateralizer.ts
 - kind: ethereum/contract
   name: RepaymentRouter
+  network: mainnet
   source:
     address: "0xc1df9b92645cc3b6733992c692a39c34a86fae5f" # Kovan: 0x0688659d5e36896da7e5d44ebe3e10aa9d2c9968 Mainnet: 0xc1df9b92645cc3b6733992c692a39c34a86fae5f
     abi: RepaymentRouter
