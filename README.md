@@ -117,10 +117,10 @@ The query below shows all the information that is possible to query, but is limi
     underwriterRiskRating
    }
   
-	cancelledDebtOrders(first: 10){
-	  id
-	  cancelledBy
-	}
+  cancelledDebtOrders(first: 10){
+    id
+    cancelledBy
+  }
 }
 ```
 The command above can be copy pasted into the Graphiql interface in your browser at `127.0.0.1:8000`.

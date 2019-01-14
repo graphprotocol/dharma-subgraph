@@ -33,17 +33,3 @@ export function handleRepayment(event: LogRepayment): void {
 
   repayment.save()
 }
-
-// So that we don't add twice on the first try
-// if (repayment != null) {
-//   let previousPaid = repayment.amountRepaid
-//   let combined = addition(event.params._amount, previousPaid)
-//   repayment.amountRepaid = combined
-// }
-
-// function addition(a: BigInt, b: BigInt): BigInt {
-//   let first = Number(a)
-//   let second = Number(b)
-//   let total = first + second
-//   return total as BigInt
-// }

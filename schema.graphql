@@ -43,7 +43,6 @@ type CancelledDebtOrder @entity {
 
 # Contract used -  RepaymentRouter.sol
 # Event used - LogRepayment
-# FIXME: array pushing is broken right now, so arrays are stuck at length of 1, and overwrite themselves
 type Repayment @entity {
   id: ID!
   payers: [Bytes!]
