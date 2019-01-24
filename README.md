@@ -24,7 +24,7 @@ correct address for each respective network.
 
 ## Brief Description of The Graph Node Setup
 
-A Graph Node can run multiple subgraphs, and in this case it can have a subgraph for both Mainnet and Kovan. The subgraph ingests event data by calling to Infura through http. It can also connect to any geth node or parity node that accepts RPC calls. Fast synced geth nodes work. To use parity, the `--no-warp` flag must be used. Setting up a local Ethereum node is more reliable and faster, but Infura is the easiest way to get started. 
+A Graph Node can run multiple subgraphs, and in this case it can have a subgraph for both Mainnet and Kovan. The subgraph ingests event data by calling to Infura through http. It can also connect to any geth or parity node that accepts RPC calls. Fast synced geth nodes work. To use parity, the `--no-warp` flag must be used. Setting up a local Ethereum node is more reliable and faster, but Infura is the easiest way to get started. 
 
 This subgraph has three types of files which tell the Graph Node to ingest events from specific contracts. They are:
 * The subgraph manifest (subgraph.yaml)
@@ -37,7 +37,7 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
 
 ## Steps to get the Dharma-Subgraph Running 
   1. Install IPFS and run `ipfs init` followed by `ipfs daemon`
-  2. Install PostgreSQL and run `initdb -D .postgres` followed by `pg_ctl -D .postgres start` and `createdb mainnet-dharma-subgraph` (note this db name is used in the commands below for the mainnet examples)
+  2. Install PostgreSQL and run `initdb -D .postgres` followed by `pg_ctl -D .postgres start` and `createdb dharma-mainnet` (note this db name is used in the commands below for the mainnet examples)
   3. If using Ubuntu, you may need to install additional packages: `sudo apt-get install -y clang libpq-dev libssl-dev pkg-config`
   4. Clone this repository, and run the following:
      * `yarn`
@@ -47,21 +47,21 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
 
 ```
   cargo run -p graph-node --release -- \
-  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/mainnet-dharma-subgraph \
+  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-mainnet \
   --ipfs 127.0.0.1:5001 \
   --ethereum-rpc mainnet-infura:https://mainnet.infura.io 
 ```
   6. b) Or Mainnet Local:
 ```
   cargo run -p graph-node --release -- \
-  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/mainnet-dharma-subgraph \
+  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-mainnet \
   --ipfs 127.0.0.1:5001 \
   --ethereum-rpc mainnet-local:http://127.0.0.1:8545 
 ```
   6. c) Or Infura Kovan _(NOTE: Infura Kovan is not reliable right now, we get inconsistent results returned. If Kovan data is needed, it is suggested to run your own Kovan node)_
 ```
     cargo run -p graph-node --release --   
-    --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-kovan-subgraph 
+    --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/dharma-kovan 
     --ipfs 127.0.0.1:5001
     --ethereum-rpc kovan-infura:https://kovan.infura.io 
 
@@ -76,7 +76,9 @@ We have provided a quick guide on how to start up the Dharma-Subgraph graph node
  
  ```
 
- 7. Now deploy the Dharma-Subgraph to The Graph Node with `yarn deploy --verbosity debug`. You should see a lot of blocks being skipped, and then it will start ingesting events from the moment the contracts were uploaded to the network. 
+ 7. Now create the subgraph locally on The Graph Node with `yarn create-subgraph`. (On The Graph Hosted service, creating the subgraph is done in the web broswer). 
+  
+ 8. Now deploy the dharma subgraph to The Graph Node with `yarn deploy`. You should see a lot of blocks being skipped in the `graph-node` terminal, and then it will start ingesting events from the moment the contracts were uploaded to the network. 
 
 Now that you have subgraph is running you may open a [Graphiql](https://github.com/graphql/graphiql) browser at `127.0.0.1:8000` and get started with querying.
 
@@ -85,7 +87,7 @@ Now that you have subgraph is running you may open a [Graphiql](https://github.c
 Below are a few ways to show how to query the Dharma-Subgraph for data. 
 
 ### Querying all possible data that is being stored
-The query below shows all the information that is possible to query, but is limited to the first 5 instances. There are many other filtering options that can be used, just check out the [querying api](https://github.com/graphprotocol/graph-node/blob/master/docs/graphql-api.md).
+The query below shows all the information that is possible to query, but is limited to the first 10 instances. There are many other filtering options that can be used, just check out the [querying api](https://github.com/graphprotocol/graph-node/blob/master/docs/graphql-api.md).
 
 ```
 {
