@@ -1,17 +1,17 @@
 
 # Contract used - Debtkernal.sol
-# Events used - LogDebtOrderFilled, LogIssuanceCancelled, LogDebtOrderCancelled,
+    # Events used - LogDebtOrderFilled, LogIssuanceCancelled, LogDebtOrderCancelled,
 # Contract used - DebtRegistry.sol
-# Events ysed - LogModifyEntryBeneficiary, LogInsertEntry,
+    # Events used - LogModifyEntryBeneficiary, LogInsertEntry,
 type DebtOrder @entity {
-  id: ID! #agreement ID
+  id: ID!                     # agreement ID
   principle: BigInt!
   principleToken: Bytes!
   underwriter: Bytes!
   underwriterFee: BigInt!
   relayer: Bytes!
   relayerFee: BigInt!
-  issuanceCancelledBy: Bytes #from event LogIssuanceCancelled - which is never called on mainnet or kovan, so far... so right now it is expected to be null
+  issuanceCancelledBy: Bytes  # from event LogIssuanceCancelled - which is never called on mainnet or kovan, so far... so right now it is expected to be null
   beneficiary: Bytes!
   underwriterRiskRating: BigInt!
   termsContract: Bytes!
@@ -22,9 +22,9 @@ type DebtOrder @entity {
 }
 
 # Contract used - ERC721Collateralizer.sol
-# Events used - CollateralLocked, CollateralReturned, CollateralSeized
+    # Events used - CollateralLocked, CollateralReturned, CollateralSeized
 type Collateral @entity {
-  id: ID! #agreementID
+  id: ID! # agreementID
   tokenAddress: Bytes!
   amount: BigInt!
   status: String!
@@ -35,14 +35,14 @@ type Collateral @entity {
 # NOTE: Should not be included with entity DebtOrder. This is because a cancelled
 # debt order happens before the debt order ever gets accepted, or is ever on chain.
 # Contract used - DebtKernal.sol
-# Events used - LogDebtOrderCancelled
+    # Events used - LogDebtOrderCancelled
 type CancelledDebtOrder @entity {
   id: ID! # debtOrderHash
   cancelledBy: Bytes!
 }
 
 # Contract used -  RepaymentRouter.sol
-# Event used - LogRepayment
+    # Event used - LogRepayment
 type Repayment @entity {
   id: ID!
   payers: [Bytes!]
