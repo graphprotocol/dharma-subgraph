@@ -24,7 +24,7 @@ dataSources:
       handler: handleLogInsertEntry
     - event: LogModifyEntryBeneficiary(bytes32,address,address)
       handler: handleModifyBeneficiary
-    file: ./mappings/debt-registry.ts
+    file: ./src/mappings/debt-registry.ts
 - kind: ethereum/contract
   name: DebtKernel
   network: mainnet
@@ -47,7 +47,7 @@ dataSources:
       handler: handleIssuanceCancelled
     - event: LogDebtOrderCancelled(bytes32,address) #0x781502ecbc7096cfe7d502e0027f02eedf4ce6d62162cd3bd45d1a3dd98b8c23 event signature
       handler: handleDebtCancelled
-    file: ./mappings/debt-kernel.ts
+    file: ./src/mappings/debt-kernel.ts
 - kind: ethereum/contract
   name: Collateralizer
   network: mainnet
@@ -70,7 +70,7 @@ dataSources:
       handler: handleReturned
     - event: CollateralSeized(bytes32,address,address,uint256)
       handler: handleSeized
-    file: ./mappings/collateralizer.ts
+    file: ./src/mappings/collateralizer.ts
 - kind: ethereum/contract
   name: RepaymentRouter
   network: mainnet
@@ -89,4 +89,4 @@ dataSources:
     eventHandlers:
     - event: LogRepayment(bytes32,address,address,uint256,address)
       handler: handleRepayment
-    file: ./mappings/repayment-router.ts
+    file: ./src/mappings/repayment-router.ts
