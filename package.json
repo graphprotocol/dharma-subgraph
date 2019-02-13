@@ -1,19 +1,18 @@
 {
-  "name": "dharma",
+  "name": "graphprotocol/dharma",
   "version": "1.0.0",
   "repository": "https://github.com/graphprotocol/dharma-subgraph",
   "license": "MIT",
   "scripts": {
-    "codegen": "graph codegen --output-dir src/types/ subgraph.yaml",
-    "create-subgraph": "graph create dharma --node http://127.0.0.1:8020",
-    "build": "graph build subgraph.yaml",
-    "build-ipfs": "graph build --ipfs http://localhost:5001 subgraph.yaml",
-    "build-wast": "graph build -t wast subgraph.yaml",
-    "deploy": "graph deploy dharma --debug --ipfs http://locallhost:5001 --node http://127.0.0.1:8020/",
-    "watch": "graph deploy dharma --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
+    "codegen": "graph codegen --output-dir src/types/",
+    "create-local": "graph create graphprotocol/dharma --node http://127.0.0.1:8020",
+    "build": "graph build",
+    "deploy-local": "graph deploy graphprotocol/dharma --debug --ipfs http://locallhost:5001 --node http://127.0.0.1:8020/",
+    "deploy": "graph deploy graphprotocol/dharma --debug --ipfs http://locallhost:5001 --node http://127.0.0.1:8020/",
+    "watch-local": "graph deploy graphprotocol/dharma --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "https://github.com/graphprotocol/graph-cli",
-    "@graphprotocol/graph-ts": "https://github.com/graphprotocol/graph-ts"
+    "@graphprotocol/graph-cli": "^0.7.1",
+    "@graphprotocol/graph-ts": "^0.5.1"
   }
 }
